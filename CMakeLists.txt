@@ -17,25 +17,10 @@ add_compile_options(
 # Include dir (équivalent -I./lib/)
 include_directories(${CMAKE_SOURCE_DIR}/lib)
 
+
 # === OpenCV ===
-# Si OPENCV_LIB_DIR est fourni (comme dans ton Makefile), on l'utilise.
-# Sinon, on essaie find_package(OpenCV).
-if(DEFINED OPENCV_LIB_DIR AND NOT "${OPENCV_LIB_DIR}" STREQUAL "")
-  message(STATUS "Using OPENCV_LIB_DIR='${OPENCV_LIB_DIR}'")
-
-  # Les libs que tu linkais dans OPENCVLIBS
-  set(OPENCV_LIBS
-    opencv_core
-    opencv_imgproc
-    opencv_highgui
-    opencv_imgcodecs
-  )
-
-  link_directories(${OPENCV_LIB_DIR})
-else()
-  find_package(OpenCV REQUIRED COMPONENTS core imgproc highgui imgcodecs)
-  message(STATUS "Found OpenCV: ${OpenCV_VERSION}")
-endif()
+find_package(OpenCV REQUIRED COMPONENTS core imgproc highgui imgcodecs)
+message(STATUS "Found OpenCV: ${OpenCV_VERSION}")
 
 # === Sources communes ===
 set(COMMON_SRC ${CMAKE_SOURCE_DIR}/src/common.cpp)
@@ -52,14 +37,8 @@ function(add_com_exe exe_name com_cpp extra_src)
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
   )
 
-  if(DEFINED OPENCV_LIB_DIR AND NOT "${OPENCV_LIB_DIR}" STREQUAL "")
-    target_link_libraries(${exe_name} PRIVATE ${OPENCV_LIBS})
-    # équivalent -Wl,-rpath ${OPENCV_LIB_DIR}
-    target_link_options(${exe_name} PRIVATE "-Wl,-rpath,${OPENCV_LIB_DIR}")
-  else()
-    target_link_libraries(${exe_name} PRIVATE ${OpenCV_LIBS})
-    target_include_directories(${exe_name} PRIVATE ${OpenCV_INCLUDE_DIRS})
-  endif()
+  target_link_libraries(${exe_name} PRIVATE ${OpenCV_LIBS})
+  target_include_directories(${exe_name} PRIVATE ${OpenCV_INCLUDE_DIRS})
 endfunction()
 
 # === TP1 (tpHistogram) ===

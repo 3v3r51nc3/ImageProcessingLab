@@ -21,17 +21,35 @@ There are 5 files to complete, each one corresponds to a course chapter:
 
 ### Environment
 
-This lab requires a working *nix environment with a c++ 11 compiler and valgrind.
 
-The library *OpenCV4* is required to compile this project. To install a local version of this library just execute the script ``source ./init.sh``. This script will automatically download the library and set up the environment variable required by the makefile.  
+This lab requires a working *nix environment with a C++11 compiler and valgrind.
 
-**Important:** If you install **OpenCV** with the script ``source ./init.sh``, you have to run the script in every terminal used to work on this project!
+The library *OpenCV4* is required to compile this project. The easiest way to install OpenCV is via your OS package manager:
 
-### Compilation
+**macOS:**
+    brew install opencv
 
-Just run ``make`` in the top directory, this will create several executables in the ``bin`` directory. 
+**Ubuntu/Debian:**
+    sudo apt-get install libopencv-dev
 
-**Tip** When using *make*, use the argument ``-j n`` to launch a parallel compilation on ``n`` cores. For example: ``make -j 4`` while compile up to 4 files in parallel. 
+**Windows:**
+    Use vcpkg or install OpenCV from the official site.
+
+Once OpenCV is installed, you do NOT need to run any init.sh script for compilation.
+
+
+### Compilation (with CMake)
+
+Run the following commands in the top directory to build all tools:
+
+    cmake -S . -B build
+    cmake --build build
+
+Executables will be created in the `bin` directory.
+
+**Tip:** You can use parallel compilation with:
+
+    cmake --build build -- -j 4
 
 ### Executables
 
