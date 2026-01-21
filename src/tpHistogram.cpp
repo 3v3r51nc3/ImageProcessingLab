@@ -56,17 +56,8 @@ Mat inverse(Mat image)
     Mat res = image.clone();
     /********************************************
               YOUR CODE HERE
-  *********************************************/
+    *********************************************/
 
-    cout << "Image type: " << type2str(res.type()) << "\n\n";
-
-    for (int y = 0; y < res.rows; y++)
-    {
-        for (int x = 0; x < res.cols; x++)
-        {
-            res.at<float>(y, x) = 1.0 - image.at<float>(y, x);
-        }
-    }
 
     /********************************************
                 END OF YOUR CODE
@@ -88,19 +79,6 @@ Mat threshold(Mat image, float lowT, float highT)
     /********************************************
                 YOUR CODE HERE
     *********************************************/
-
-    for (int y = 0; y < res.rows; y++)
-    {
-        for (int x = 0; x < res.cols; x++)
-        {
-            if (res.at<float>(y,x) >= highT){
-                res.at<float>(y,x) = 1;
-            }
-            else if (res.at<float>(y,x) <= lowT){
-                res.at<float>(y,x) = 0;
-            }
-        }
-    }
 
     /********************************************
                 END OF YOUR CODE
