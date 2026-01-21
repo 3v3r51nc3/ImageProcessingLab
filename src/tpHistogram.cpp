@@ -5,6 +5,47 @@
 using namespace cv;
 using namespace std;
 
+std::string type2str(int type)
+{
+    std::string r;
+
+    uchar depth = type & CV_MAT_DEPTH_MASK;
+    uchar chans = 1 + (type >> CV_CN_SHIFT);
+
+    switch (depth)
+    {
+    case CV_8U:
+        r = "CV_8U";
+        break;
+    case CV_8S:
+        r = "CV_8S";
+        break;
+    case CV_16U:
+        r = "CV_16U";
+        break;
+    case CV_16S:
+        r = "CV_16S";
+        break;
+    case CV_32S:
+        r = "CV_32S";
+        break;
+    case CV_32F:
+        r = "CV_32F";
+        break;
+    case CV_64F:
+        r = "CV_64F";
+        break;
+    default:
+        r = "Unknown";
+        break;
+    }
+
+    r += "C";
+    r += std::to_string(chans);
+
+    return r;
+}
+
 /**
     Inverse a grayscale image with float values.
     for all pixel p: res(p) = 1.0 - image(p)
@@ -13,10 +54,20 @@ Mat inverse(Mat image)
 {
     // clone original image
     Mat res = image.clone();
-      /********************************************
-                YOUR CODE HERE
-    *********************************************/
-    
+    /********************************************
+              YOUR CODE HERE
+  *********************************************/
+
+    cout << "Image type: " << type2str(res.type()) << "\n\n";
+
+    for (int y = 0; y < res.rows; y++)
+    {
+        for (int x = 0; x < res.cols; x++)
+        {
+            res.at<float>(y, x) = 1.0 - image.at<float>(y, x);
+        }
+    }
+
     /********************************************
                 END OF YOUR CODE
     *********************************************/
@@ -37,7 +88,20 @@ Mat threshold(Mat image, float lowT, float highT)
     /********************************************
                 YOUR CODE HERE
     *********************************************/
-    
+
+    for (int y = 0; y < res.rows; y++)
+    {
+        for (int x = 0; x < res.cols; x++)
+        {
+            if (res.at<float>(y,x) >= highT){
+                res.at<float>(y,x) = 1;
+            }
+            else if (res.at<float>(y,x) <= lowT){
+                res.at<float>(y,x) = 0;
+            }
+        }
+    }
+
     /********************************************
                 END OF YOUR CODE
     *********************************************/
@@ -46,7 +110,7 @@ Mat threshold(Mat image, float lowT, float highT)
 
 /**
     Quantize the input float image in [0,1] in numberOfLevels different gray levels.
-    
+
     eg. for numberOfLevels = 3 the result should be for all pixel p: res(p) =
         | 0 if image(p) < 1/3
         | 1/2 if 1/3 <= image(p) < 2/3
@@ -64,11 +128,11 @@ Mat threshold(Mat image, float lowT, float highT)
 Mat quantize(Mat image, int numberOfLevels)
 {
     Mat res = image.clone();
-    assert(numberOfLevels>0);
+    assert(numberOfLevels > 0);
     /********************************************
                 YOUR CODE HERE
     *********************************************/
-    
+
     /********************************************
                 END OF YOUR CODE
     *********************************************/
@@ -86,20 +150,18 @@ Mat normalize(Mat image, float minValue, float maxValue)
     /********************************************
                 YOUR CODE HERE
     *********************************************/
-    
+
     /********************************************
                 END OF YOUR CODE
     *********************************************/
     return res;
 }
 
-
-
 /**
     Equalize image histogram with unsigned char values ([0;255])
 
     Warning: this time, image values are unsigned chars but calculation will be done in float or double format.
-    The final result must be rounded toward the nearest integer 
+    The final result must be rounded toward the nearest integer
 */
 Mat equalize(Mat image)
 {
@@ -107,12 +169,11 @@ Mat equalize(Mat image)
     /********************************************
                 YOUR CODE HERE
     *********************************************/
-    
+
     /********************************************
                 END OF YOUR CODE
     *********************************************/
     return res;
-
 }
 
 /**
@@ -125,7 +186,7 @@ Mat thresholdOtsu(Mat image)
     /********************************************
                 YOUR CODE HERE
     *********************************************/
-    
+
     /********************************************
                 END OF YOUR CODE
     *********************************************/

@@ -62,3 +62,5 @@ bin/test
 bin/out.png
 bin/out.jpg
 
+build/
+
